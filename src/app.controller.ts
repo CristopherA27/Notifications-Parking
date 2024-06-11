@@ -1,21 +1,19 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
 import { UserEmail } from './interfaces/userEmail';
-import { AppService } from './app.service';
+import { EmailsService } from './emails/emails.service';
+import { NotificationRequest, NotificationResponse } from './emails/emails.pb';//
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService : AppService) {}
+  constructor(
+    private readonly emailService : EmailsService
+  ) {}
 
-  //@GrpcMethod('AppService', 'postEmail')
-  @Post('sendEmail')
-  async postEmail(@Body() user: UserEmail) {
-    try {
-      console.log(user)
-      return this.appService.sendEmail(user);
-    }
-    catch(error){
-      return 'Error al enviar el correo';
-    }
+  @GrpcMethod('EmailsService', 'sendEmailInformation')
+  //@Post('sendEmail')
+  async postEmail(request: NotificationRequest ): Promise<NotificationResponse>  {
+    return this.emailService.sendEmailInformation(request);
   }
+ 
 }
