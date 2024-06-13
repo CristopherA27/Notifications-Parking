@@ -9,9 +9,11 @@ service EmailsService {
 message NotificationRequest {
     string name = 1;
     string email = 2;
-    double amount = 3;
-    string status = 4;
-    int32 timeDuration = 5;
+    string qrCode = 3;
+    string checkoutUrl = 4;
+    string dateHourStart = 5;
+    string zoneName = 6;
+    string patente = 7;
 }
 
 message NotificationResponse {
